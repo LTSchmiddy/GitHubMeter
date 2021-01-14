@@ -1,0 +1,10 @@
+{
+    "root": "github_meter_module",
+    "venv": "venv",
+    "requirements": "requirements.txt",
+    "working_directory": "./",
+    "allow_globals": true,
+    "overinstall_globals": true,
+    "update_venv": false,
+    "siKey": null
+}

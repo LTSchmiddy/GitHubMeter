@@ -1,0 +1,4 @@
+**/venv/
+**/.rm_PyPluginSp_logs/
+**/__pycache__/
+/.vscode/
