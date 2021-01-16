@@ -1,11 +1,14 @@
 import pathlib
+from datetime import datetime, timezone
 
 import github
+from tzlocal import get_localzone
 
 from PythonLoaderUtils.rm_stub import RainmeterW
 from PythonLoaderUtils.meaure_type import MeasureBase
 
 from github_meter_module.monitor.gh_repo_list import GHUserReposMonitor
+
 
 
 class GHLatestReposMeasure(MeasureBase):
@@ -60,7 +63,7 @@ class GHLatestReposMeasure(MeasureBase):
             return "None"
         
         # return str(repo.updated_at)
-        return str(repo.last_update.strftime("%a, %b %d %Y - %I:%M %p"))
+        return str(repo.last_update.astimezone(get_localzone()).strftime("%a, %b %d %Y - %I:%M %p"))
     
     def RepoLastCommitMessage(self, p_index: str):
         index = int(p_index)
