@@ -63,8 +63,17 @@ class GHLatestReposMeasure(MeasureBase):
         if repo == None:
             return "None"
         
+        as_utc = datetime(
+            repo.last_update.year,
+            repo.last_update.month,
+            repo.last_update.day,
+            repo.last_update.hour,
+            repo.last_update.minute,
+            repo.last_update.second,
+            repo.last_update.microsecond,
+            tzinfo=timezone.utc)
         # return str(repo.updated_at)
-        return str(repo.last_update.astimezone(pytz.timezone('US/Eastern')).strftime("%a, %b %d %Y - %I:%M %p"))
+        return str(as_utc.astimezone(get_localzone()).strftime("%a, %b %d %Y - %I:%M %p"))
     
     def RepoLastCommitMessage(self, p_index: str):
         index = int(p_index)
