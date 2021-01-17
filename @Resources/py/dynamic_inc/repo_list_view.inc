@@ -40,7 +40,7 @@ w = #entryCommitAuthorW#
 h = #entryCommitAuthorH#
 x = (#offsetX# + #entryCommitAuthorX#)
 y = (#offsetY# + #entryH# * 0 + #spacingV# * 0 + #entryCommitAuthorY#)
-text = [#RepoMeasure#:Func(RepoLastCommitAuthor, 0)]
+text = By [#RepoMeasure#:Func(RepoLastCommitAuthor, 0)]
 
 [meterRepoName1]
 dynamicvariables = 1
@@ -84,7 +84,7 @@ w = #entryCommitAuthorW#
 h = #entryCommitAuthorH#
 x = (#offsetX# + #entryCommitAuthorX#)
 y = (#offsetY# + #entryH# * 1 + #spacingV# * 1 + #entryCommitAuthorY#)
-text = [#RepoMeasure#:Func(RepoLastCommitAuthor, 1)]
+text = By [#RepoMeasure#:Func(RepoLastCommitAuthor, 1)]
 
 [meterRepoName2]
 dynamicvariables = 1
@@ -128,7 +128,7 @@ w = #entryCommitAuthorW#
 h = #entryCommitAuthorH#
 x = (#offsetX# + #entryCommitAuthorX#)
 y = (#offsetY# + #entryH# * 2 + #spacingV# * 2 + #entryCommitAuthorY#)
-text = [#RepoMeasure#:Func(RepoLastCommitAuthor, 2)]
+text = By [#RepoMeasure#:Func(RepoLastCommitAuthor, 2)]
 
 [meterRepoName3]
 dynamicvariables = 1
@@ -172,7 +172,7 @@ w = #entryCommitAuthorW#
 h = #entryCommitAuthorH#
 x = (#offsetX# + #entryCommitAuthorX#)
 y = (#offsetY# + #entryH# * 3 + #spacingV# * 3 + #entryCommitAuthorY#)
-text = [#RepoMeasure#:Func(RepoLastCommitAuthor, 3)]
+text = By [#RepoMeasure#:Func(RepoLastCommitAuthor, 3)]
 
 [meterRepoName4]
 dynamicvariables = 1
@@ -216,5 +216,5 @@ w = #entryCommitAuthorW#
 h = #entryCommitAuthorH#
 x = (#offsetX# + #entryCommitAuthorX#)
 y = (#offsetY# + #entryH# * 4 + #spacingV# * 4 + #entryCommitAuthorY#)
-text = [#RepoMeasure#:Func(RepoLastCommitAuthor, 4)]
+text = By [#RepoMeasure#:Func(RepoLastCommitAuthor, 4)]
 

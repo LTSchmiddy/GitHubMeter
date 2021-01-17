@@ -65,7 +65,7 @@ def generate_repo_list_meters(
             "H": "#entryCommitAuthorH#",
             "X": buildPosX("entryCommitAuthorX"),
             "Y": buildPosY("entryCommitAuthorY", i),
-            "Text": f"[#RepoMeasure#:Func(RepoLastCommitAuthor, {index})]",    
+            "Text": f"By [#RepoMeasure#:Func(RepoLastCommitAuthor, {index})]",    
         }
     
     

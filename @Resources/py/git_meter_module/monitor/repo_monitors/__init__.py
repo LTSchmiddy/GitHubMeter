@@ -1,24 +1,19 @@
 from __future__ import annotations
 
 import threading, sched, time
-
-from github.MainClass import Github
-from github.Repository import Repository
-
-from github_meter_module import settings, monitor
-
+from git_meter_module import settings, monitor
 from .repo_info import RepoInfo
 
-class GHUserReposMonitor:
-    _accessors: int = 0
-    _instance: GHUserReposMonitor = None
+
+class ReposMonitorBase:
     # Static
-    repo_count: int = 5
+    _accessors: int = 0
+    _instance: ReposMonitorBase = None
     
     # Instance
-    account: Github
-    login_name: str
     repo_list: list[RepoInfo]
+    # repo_count = settings.SettingRef[int]("github", "display-count")
+    repo_count: settings.SettingRef[int]
     
     update_thread: threading.Thread
     update_event_loop_thread: threading.Thread
@@ -29,21 +24,21 @@ class GHUserReposMonitor:
     kill_event_loop: bool = False
     
     @classmethod
-    def get_instance(cls) -> GHUserReposMonitor:
+    def get_instance(cls) -> ReposMonitorBase:
         if cls._instance is None:
-            cls._instance = cls(monitor.get_account())
+            cls._instance = cls()
         return cls._instance
 
 
     @classmethod
-    def set_instance(cls, p_instance: GHUserReposMonitor):
+    def set_instance(cls, p_instance: ReposMonitorBase):
         cls._instance = p_instance
 
 
     @classmethod
     def increase_accessors(cls):
         if cls._accessors == 0 and cls._instance is None:
-            cls._instance = cls(monitor.get_account())
+            cls._instance = cls()
         cls._accessors += 1
         
     @classmethod
@@ -55,22 +50,18 @@ class GHUserReposMonitor:
             cls._instance = None
     
     
-    
-    def __init__(self, p_account: Github):
+    def __init__(self):
         # self.set_instance(self)
-        self.account = p_account
-        
-        self.login_name = "Loading..."
         self.update_thread = None
         
         self.repo_list = []
-        for i in range(0, self.repo_count):
+        for i in range(0, self.repo_count.val):
             self.repo_list.append(None)
 
         self.update_sched = sched.scheduler(time.time, time.sleep)
         self.on_update_event()
         
-        self.update_event_loop_thread = threading.Thread(None, self.update_event_loop, f"ReposMonitor_Update_Event_Loop_{id(self)}")
+        self.update_event_loop_thread = threading.Thread(None, self.update_event_loop, f"{self.__class__.__name__}_Update_Event_Loop_{id(self)}")
         self.update_event_loop_thread.start()
     
     def on_update_event(self): 
@@ -81,7 +72,7 @@ class GHUserReposMonitor:
             1, 
             self.on_update_event
         )
-        print(f"GHUserReposMonitor will update again in {settings.current['general']['update-interval-min']} minutes.")
+        print(f"{self.__class__.__name__} will update again in {settings.current['general']['update-interval-min']} minutes.")
     
     def update_event_loop(self):
         while not self.kill_event_loop:
@@ -93,21 +84,23 @@ class GHUserReposMonitor:
     
     def update_async(self):
         if self.update_thread is not None and self.update_thread.is_alive():
-            print("Last update is still running...")
+            print(f"Last update for {self.__class__.__name__} is still running...")
         else:
-            self.update_thread = threading.Thread(None, self.update, f"ReposMonitor_Update_Thread_{id(self)}")
+            self.update_thread = threading.Thread(None, self.update, f"{self.__class__.__name__}_Update_Thread_{id(self)}", daemon=True)
             self.update_thread.start()
     
+    
     def update(self):
-        print("GHUserReposMonitor is updating...")
-        self.login_name = self.account.get_user().login
-        new_repo_list = sorted(self.account.get_user().get_repos(), key=lambda x: x.updated_at, reverse=True)
-        
-        for i in range(0, min(len(new_repo_list), self.repo_count)):
-            self.repo_list[i] = RepoInfo.from_github_Repository(new_repo_list[i])
+        print(f"{self.__class__.__name__} is updating...")
+        # new_repo_list = sorted(self.account.get_user().get_repos(), key=lambda x: x.updated_at, reverse=True)
+    
+    
+    def populate_repo_list(self, new_repo_list: list[RepoInfo], parser):
+        for i in range(0, min(len(new_repo_list), self.repo_count.val)):
+            self.repo_list[i] = parser(new_repo_list[i])
     
     def shutdown(self):
-        print("Shutting down GHUserReposMonitor...")
+        print(f"Shutting down {self.__class__.__name__}...")
         self.kill_event_loop = True
         self.update_event_loop_thread.join()
         
@@ -115,4 +108,3 @@ class GHUserReposMonitor:
         #     self.update_thread.join()
 
         self.update_sched.cancel(self.update_event)
-        

@@ -1,5 +1,5 @@
 {
-    "root": "github_meter_module",
+    "root": "git_meter_module",
     "venv": "venv",
     "requirements": "requirements.txt",
     "working_directory": "./",

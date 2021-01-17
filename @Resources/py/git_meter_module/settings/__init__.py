@@ -8,8 +8,15 @@ import json
 settings_path = "settings.json"
 
 default_settings = {
-    "user": {
-        "token": None
+    "github": {
+        "user-token": None,
+        "display-count": 5
+    },
+    "local": {
+        "paths": [],
+        "search-depth": 3,
+        "display-count": 5,
+        "git-path": None
     },
     "general": {
         "update-interval-min": 5
@@ -71,3 +78,4 @@ def save_settings():
     global current
     json.dump(current, open(settings_path, "w"), indent=4)
 
+from .setting_ref import SettingRef
