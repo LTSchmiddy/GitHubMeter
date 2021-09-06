@@ -67,11 +67,6 @@ class RepoInfo:
         retVal.last_commit_message = commit.message
         retVal.last_commit_author = commit.author.name
         
-        retVal.content_address = None
-        
-        # for i in repo.remotes:
-        #     r: Remote = i
-        #     if r.name == 'origin':
-        #         retVal.content_address = r.urls[0]
+        retVal.content_address = repo.working_dir
 
         return retVal

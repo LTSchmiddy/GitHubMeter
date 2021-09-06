@@ -13,6 +13,7 @@ from .repo_info import RepoInfo
 class GHUserReposMonitor(ReposMonitorBase):
     # Static
     repo_count = settings.SettingRef[int]("github", "display-count")
+    update_interval = settings.SettingRef[int]("github", "update-interval-min")
     
     # Instance
     account: Github
@@ -21,7 +22,7 @@ class GHUserReposMonitor(ReposMonitorBase):
     def __init__(self):
         self.account = monitor.get_account()
         self.login_name = "Loading..."
-        
+        settings.load_settings()
         super().__init__()
         
     

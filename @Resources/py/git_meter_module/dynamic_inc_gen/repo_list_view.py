@@ -5,11 +5,6 @@ from configparser import ConfigParser
 def generate_repo_list_meters(
     subpath: str, 
     repo_count: int = 5, 
-    # offsetX: int = 0,
-    # offsetY: int = 40,
-    # spacingV: int = 20, 
-    # entryW: int = 350,
-    # entryH: int = 30,
 ):
     cfg: ConfigParser = ConfigParser()
     

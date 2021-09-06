@@ -13,12 +13,13 @@ from .repo_info import RepoInfo
 class LocalReposMonitor(ReposMonitorBase):
     # Static
     repo_count = settings.SettingRef[int]("local", "display-count")
+    update_interval = settings.SettingRef[int]("local", "update-interval-min")
     
     # Instance  
     
     def __init__(self):
         self.login_name = "Loading..."
-        
+        settings.load_settings()
         super().__init__()
         
     

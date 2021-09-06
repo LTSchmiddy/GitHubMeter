@@ -14,6 +14,7 @@ class ReposMonitorBase:
     repo_list: list[RepoInfo]
     # repo_count = settings.SettingRef[int]("github", "display-count")
     repo_count: settings.SettingRef[int]
+    update_interval: settings.SettingRef[int]
     
     update_thread: threading.Thread
     update_event_loop_thread: threading.Thread
@@ -68,11 +69,11 @@ class ReposMonitorBase:
         # print("update_event")
         self.update_async()
         self.update_event = self.update_sched.enter(
-            settings.current['general']['update-interval-min'] * 60,
+            self.update_interval.val * 60,
             1, 
             self.on_update_event
         )
-        print(f"{self.__class__.__name__} will update again in {settings.current['general']['update-interval-min']} minutes.")
+        print(f"{self.__class__.__name__} will update again in {self.update_interval.val} minutes.")
     
     def update_event_loop(self):
         while not self.kill_event_loop:

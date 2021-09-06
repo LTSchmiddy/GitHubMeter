@@ -10,16 +10,15 @@ settings_path = "settings.json"
 default_settings = {
     "github": {
         "user-token": None,
-        "display-count": 5
+        "display-count": 5,
+        "update-interval-min": 5
     },
     "local": {
         "paths": [],
         "search-depth": 3,
         "display-count": 5,
-        "git-path": None
-    },
-    "general": {
-        "update-interval-min": 5
+        "git-path": None,
+        "update-interval-min": 1
     }
 }
 
